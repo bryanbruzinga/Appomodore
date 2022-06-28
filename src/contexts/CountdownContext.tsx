@@ -39,7 +39,7 @@ export const useCountdown = () => {
 let countdownTimeout: NodeJS.Timeout;
 
 export function CountdownProvider({ children }: CountdownProviderProps) {
-  const [time, setTime] = useState(0.1 * 60);
+  const [time, setTime] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
   const [name, setName] = useState("");
   const [level, setLevel] = useState(1);
@@ -71,7 +71,8 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
   }
 
   function gainXp() {
-    let finalExperience = currentExperience + 50;
+    let finalExperience =
+      currentExperience + Math.ceil(experienceToNextLevel * 0.4);
     if (finalExperience >= experienceToNextLevel) {
       finalExperience = finalExperience - experienceToNextLevel;
       levelUp();
@@ -82,7 +83,7 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
   }
 
   function loseXp() {
-    let finalExperience = currentExperience - 50;
+    let finalExperience = currentExperience - 100;
     if (finalExperience <= 0) finalExperience = 0;
     setCurrentExperience(finalExperience);
     setUser(userToSave);
@@ -98,7 +99,7 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
   function resetCountdown() {
     clearTimeout(countdownTimeout);
     setIsActive(false);
-    setTime(0.1 * 60);
+    setTime(25 * 60);
   }
 
   useEffect(() => {
